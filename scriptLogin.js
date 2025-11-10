@@ -14,16 +14,19 @@ form.addEventListener("submit", async (e) => {
       body: JSON.stringify({ email, senha, tipo }),
     });
 
-    const data = await response.json();
+    const data = await response.json(); // <- aqui agora vai vir limpo
 
     if (data.success) {
       alert(data.message);
-      // Redireciona para página protegida, por exemplo dashboard.html
-      window.location.href = "index.html";
+      if (data.tipo === "empresa") {
+        window.location.href = "indexEnterprises.html";
+      } else {
+        window.location.href = "indexUsers.html";
+      }
     } else {
       alert(data.error);
     }
   } catch (err) {
-    alert("Erro ao tentar fazer login.");
+    alert("Erro ao tentar fazer login: " + err);
   }
 });

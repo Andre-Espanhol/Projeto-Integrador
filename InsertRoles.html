@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crie sua Conta</title>
+  <link rel="icon" href="img/Robot-solo.png">
+  <link rel="stylesheet" href="css/styleA.css"/>
+</head>
+<body>
+  <div class="container">
+    <form class="form" id="registerForm">
+      <div class="form-header">
+        <span class="icon"></span>
+        <h2>💼 Cargos</h2>
+      </div>
+
+      <label for="nome">Nome do Cargo</label>
+      <input type="text" id="nome" placeholder="Marketing Digital" required />
+
+      <label for="salario">Plano de Salário</label>
+      <input type="text" id="salario" placeholder="R$ 0,00" oninput="formatarMoeda(this)" required />
+
+      <label for="horas">Carga Horária Semanal</label>
+      <input type="text" id="carga" placeholder="HR 0" oninput="formatarHoras(this)" required />
+      
+      <button class="btn1" type="submit">Cadastrar</button>
+    </form>
+  </div>
+
+  <script src="scriptRegistroCargos.js"></script>
+</body>
+</html>

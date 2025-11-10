@@ -1,9 +1,9 @@
 <?php
 require 'db_connect.php';
+session_start();
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 header('Content-Type: application/json');
+error_reporting(0); // evita que mensagens de aviso quebrem o JSON
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -12,7 +12,7 @@ $senha = $data['senha'] ?? '';
 $tipo = $data['tipo'] ?? '';
 
 if (!$email || !$senha || !$tipo) {
-    echo json_encode(["error" => "Preencha todos os campos!"]);
+    echo json_encode(["success" => false, "error" => "Preencha todos os campos!"]);
     exit;
 }
 
@@ -24,16 +24,23 @@ $collection = $database->selectCollection($collectionName);
 $user = $collection->findOne(["email" => $email]);
 
 if (!$user) {
-    echo json_encode(["error" => "Usuário não encontrado."]);
+    echo json_encode(["success" => false, "error" => "Usuário não encontrado."]);
     exit;
 }
 
 // Verifica a senha
 if (!password_verify($senha, $user['senha'])) {
-    echo json_encode(["error" => "Senha incorreta."]);
+    echo json_encode(["success" => false, "error" => "Senha incorreta."]);
     exit;
 }
 
 // Login OK
-echo json_encode(["success" => true, "message" => "Login realizado com sucesso!"]);
+$_SESSION['tipo'] = $tipo;
+
+echo json_encode([
+    "success" => true,
+    "message" => "Login realizado com sucesso!",
+    "tipo" => $tipo
+]);
+exit; // ⚠️ muito importante!
 ?>
